@@ -77,6 +77,25 @@ void adicionarEstado(Estado *afd_Estado, char *nomeEstado){
     }       
 }
 
+/*adiciona um simbolo ao alfabeto*/
+void adicionarAlfabeto(Alfabeto *afd_Alfabeto, char Simbolo){
+    /*cria novo alfabeto e armazena seu nome*/
+    Alfabeto *A = malloc (sizeof (Alfabeto));
+    A->prox = NULL;
+    A->Simbolo = Simbolo;
+
+    /*insere o novo estado no final da lista de estados*/
+    if(afd_Alfabeto->prox == NULL){
+        afd_Alfabeto->prox = A;
+    }
+    else{
+        Alfabeto *aux = afd_Alfabeto->prox;
+        while(aux->prox != NULL){
+            aux = aux->prox;
+        }
+        aux->prox = A;
+    }   
+}
 
 /*ler arquivo txt e gerar o automato*/
 void gerarAFD(AFD* A, char *nomeArquivo){
@@ -102,8 +121,8 @@ void gerarAFD(AFD* A, char *nomeArquivo){
         else if(cont == A->numEstados + 1){//numero de estados + o primeiro elemento
             A->numSimbolos = atoi(texto_str);
             while(aux < A->numSimbolos){
-                //fgets(texto_str, 20, pont_arq);
-                //adicionarEstado(A->afd_Alfabeto, texto_str);
+                fgets(texto_str, 20, pont_arq);
+                adicionarAlfabeto(A->afd_Alfabeto, texto_str[0]);
                 aux++;
             }
         }
