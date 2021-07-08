@@ -1,5 +1,5 @@
 
-all: main
+afdtool: main
 
-main: main.c
+main: main.c func.h
     gcc main.c -o main
