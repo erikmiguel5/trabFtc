@@ -35,6 +35,7 @@ typedef struct AFD {
     Estado          afd_eInicial;
 }AFD;
 
+
 /*inicializa estrutura do AFD*/
 void inicializarAFDVazio(AFD* A){
 
@@ -97,6 +98,23 @@ void adicionarAlfabeto(Alfabeto *afd_Alfabeto, char Simbolo){
     }   
 }
 
+void adicionarTransicao(Transicao *afd_Transicao, char *Transicao){
+    int i = 0;
+    char c;
+    while(Transicao[i] != '\0'){
+        if(c && Transicao[i] == ' '){
+            i++;
+            c = Transicao[i];
+            i++;
+        }
+        if(c){
+
+        }
+        i++;
+    }
+    printf("\n::::> %c", c);
+}
+
 /*ler arquivo txt e gerar o automato*/
 void gerarAFD(AFD* A, char *nomeArquivo){
     //ponteiro para o arquivo
@@ -110,20 +128,36 @@ void gerarAFD(AFD* A, char *nomeArquivo){
     int aux;
     while(fgets(texto_str, 20, pont_arq) != NULL){
         aux = 0;
+        //faz chamada da função para inserir os estados
         if(cont == 0){
-            A->numEstados = atoi(texto_str);
+            A->numEstados = atoi(texto_str);//transforma char em int
             while(cont < A->numEstados){
                 fgets(texto_str, 20, pont_arq);
                 adicionarEstado(A->afd_Estado, texto_str);
                 cont++;
             }
         }
-        else if(cont == A->numEstados + 1){//numero de estados + o primeiro elemento
+        //faz chamada da função para inserir os Símbolos do Alfabeto
+        //numero de estados + o primeiro elemento
+        else if(cont == A->numEstados + 1){
             A->numSimbolos = atoi(texto_str);
             while(aux < A->numSimbolos){
                 fgets(texto_str, 20, pont_arq);
                 adicionarAlfabeto(A->afd_Alfabeto, texto_str[0]);
                 aux++;
+                cont++;
+            }
+        }
+        //faz chamada da função para inserir as Transições
+        //numero de estados + numero de simbolos + 2 elementos
+        else if(cont == (A->numEstados + A->numSimbolos + 2)){
+            aux = 0;
+            A->numTransicao = atoi(texto_str);
+            while(aux < A->numTransicao){
+                fgets(texto_str, 20, pont_arq);
+                adicionarTransicao(A->afd_Transicao, texto_str);
+                aux++;
+                cont++;
             }
         }
         cont++;

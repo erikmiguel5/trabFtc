@@ -13,7 +13,7 @@ int main(int argc, char** argv){
 
     gerarAFD(&A, "afd.txt");
     //imprimir(A);
-    printf("%d\n", A.numEstados);
+    printf("\n%d\n", A.numEstados);
     printf("%s", A.afd_Estado->prox->nomeEstado);
     printf("%s", A.afd_Estado->prox->prox->nomeEstado);
 
@@ -23,6 +23,7 @@ int main(int argc, char** argv){
 
 
 
+    printf("%d\n", A.numTransicao);
 
     return 0;
 }
