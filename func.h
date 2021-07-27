@@ -11,16 +11,12 @@ typedef struct Alfabeto{
 }Alfabeto;
 
 typedef struct Transicao{
-    Estado origem;
-    Estado destino;
-    Alfabeto s;
+    char estadoOrigem[25];
+    char estadoDestino[25];
+    char s;
     struct Transicao *prox;
 }Transicao;
 
-typedef struct EstadosFinais{
-    Estado eFinais;
-    struct EstadosFinais *prox;
-}EstadosFinais;
 
 /*Struct do afd contento os atributos necessários para sua leitura*/
 typedef struct AFD {
@@ -31,8 +27,8 @@ typedef struct AFD {
     Estado          *afd_Estado;
     Alfabeto        *afd_Alfabeto;
     Transicao       *afd_Transicao;
-    EstadosFinais   *afd_eFinais;
-    Estado          afd_eInicial;
+    Estado          *afd_eFinais;
+    char            afd_eInicial[25];
 }AFD;
 
 
@@ -43,10 +39,10 @@ void inicializarAFDVazio(AFD* A){
     A->afd_Estado       = malloc (sizeof (Estado));
     A->afd_Alfabeto     = malloc (sizeof (Alfabeto));
     A->afd_Transicao    = malloc (sizeof (Transicao));
-    A->afd_eFinais      = malloc (sizeof (EstadosFinais));
+    A->afd_eFinais      = malloc (sizeof (Estado));
 
     /*inicializa os ponteiros de prox como NULL*/
-    A->afd_Estado->prox        = NULL;
+    A->afd_Estado->prox         = NULL;
     A->afd_Alfabeto->prox       = NULL;
     A->afd_Transicao->prox      = NULL;
     A->afd_eFinais->prox        = NULL;
