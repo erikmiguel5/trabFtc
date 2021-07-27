@@ -94,21 +94,48 @@ void adicionarAlfabeto(Alfabeto *afd_Alfabeto, char Simbolo){
     }   
 }
 
-void adicionarTransicao(Transicao *afd_Transicao, char *Transicao){
+/*adiciona o estado de origem, destido e simbolo a ser consumido em uma transição*/
+void adicionarTransicao(Transicao *afd_Transicao, char *transicao){
     int i = 0;
+    int j = 0;
     char c;
-    while(Transicao[i] != '\0'){
-        if(c && Transicao[i] == ' '){
-            i++;
-            c = Transicao[i];
-            i++;
-        }
-        if(c){
+    char estado1[20];
+    char estado2[20];
 
-        }
+    /*laço para ler  o primeiro estado*/
+    while(transicao[i] != ' '){
+        estado1[i] = transicao[i];
         i++;
     }
-    printf("\n::::> %c", c);
+    /*ler o simbolo*/
+    i++;
+    c = transicao[i];
+    i++;
+    i++;
+    /*laço para ler o segundo estado*/
+    while(i < strlen(transicao)){
+        estado2[j] = transicao[i];
+        j++;
+        i++;
+    }
+     /*cria nova transição e armazena seus atributos*/
+    Transicao *T = malloc (sizeof (Transicao));
+    T->prox = NULL;
+    strcpy(T->estadoOrigem, estado1);
+    T->s = c;
+    strcpy(T->estadoDestino, estado2);
+
+    /*insere o nova transição no final da lista de transições*/
+    if(afd_Transicao->prox == NULL){
+        afd_Transicao->prox = T;
+    }
+    else{
+        Transicao *aux = afd_Transicao->prox;
+        while(aux->prox != NULL){
+            aux = aux->prox;
+        }
+        aux->prox = T;
+    }   
 }
 
 /*ler arquivo txt e gerar o automato*/
@@ -154,6 +181,19 @@ void gerarAFD(AFD* A, char *nomeArquivo){
                 adicionarTransicao(A->afd_Transicao, texto_str);
                 aux++;
                 cont++;
+            }
+        }
+        else{
+            strcpy(A->afd_eInicial, texto_str);
+            cont++;
+            fgets(texto_str, 20, pont_arq);
+            A->numEFinais = atoi(texto_str);
+            aux = 0;
+            cont++;
+            while(aux < A->numEFinais){
+                fgets(texto_str, 20, pont_arq);
+                adicionarEstado(A->afd_eFinais, texto_str);
+                aux++;
             }
         }
         cont++;

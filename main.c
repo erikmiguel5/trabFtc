@@ -41,6 +41,5 @@ int main(int argc, char** argv){
     printf("%s\n", A.afd_eFinais->prox->nomeEstado);
 
 
-    
     return 0;
 }
