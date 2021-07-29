@@ -202,18 +202,105 @@ void gerarAFD(AFD* A, char *nomeArquivo){
     fclose(pont_arq);
 }
 
+/*função para gerar o arquivo DOT*/
+void gerarDot(AFD A){
 
+    int i = 0;
+    Estado *E;
+    Transicao *T;
+
+    /*abertura ou criação do arquivo*/
+    FILE *pont_arq;
+    pont_arq = fopen("afd.dot", "w");
+
+
+    char c[20]          = {'"', '8', ',', '5'};
+    //char aspasFim[4]    = {'"', ']', ';', '\n'};
+    //char seta[4]        = {' ', '-', '>', ' '};
+    char size[12]       = {'s', 'i', 'z', 'e', '=', '"', '8', ',', '5', '"', '\n'};
+    //char label[11]      = {'[', 'l', 'a', 'b', 'e', 'l', ' ', '=', ' ', '"', '\n'};
+    char aspas = {'"'};
+
+    /*escrevendo no arquivo no formato DOT*/
+    fputs("digraph finite_state_machine {\n", pont_arq);
+    fputs("rankdir=LR;\n", pont_arq);
+    fputs(size, pont_arq);
+
+    /*estados finais*/
+    fputs("node [shape = doublecircle];", pont_arq);
+    E = A.afd_eFinais->prox;
+    /*loop para percorrer cada estado*/
+    while(E != NULL){
+        fputs(" ", pont_arq);
+        i = 0;
+        /*loop para percorrer a string evitando o \n*/
+        while(i < strlen(E->nomeEstado) && E->nomeEstado[i] != '\n'){
+            putc(E->nomeEstado[i], pont_arq);
+            i++;
+        }
+        E = E->prox;
+    }
+    fputs(";\n", pont_arq);
+    fputs("node [shape = circle];\n", pont_arq);
+
+    T = A.afd_Transicao->prox;
+    while(T != NULL){
+        i = 0;
+        /*loop para percorrer a string evitando o \n*/
+        while(i < strlen(T->estadoOrigem) && T->estadoOrigem[i] != '\n'){
+            putc(T->estadoOrigem[i], pont_arq);
+            i++;
+        }
+        fputs(" -> ", pont_arq);
+        i = 0;
+        /*loop para percorrer a string evitando o \n*/
+        while(i < strlen(T->estadoDestino) && T->estadoDestino[i] != '\n'){
+            putc(T->estadoDestino[i], pont_arq);
+            i++;
+        }
+        fputs(" [label = ", pont_arq);
+        putc(aspas, pont_arq);
+        putc(T->s, pont_arq);
+        putc(aspas, pont_arq);
+        fputs("];\n", pont_arq);
+        T = T->prox;
+    }
+    putc('}', pont_arq);
+    
+    fclose(pont_arq);
+    
+}
 
 /*função imprime para conferir os dados*/
 void imprimir(AFD A){
 
-    //printf("\n%d\n", A.numEstados);
-    //printf("\n%d\n", A.numSimbolos);
-    //printf("\n%d\n", A.numTransicao);
-    //printf("\n%d\n", A.numEFinais);
-    printf("\nvazio ?:%s ooooooo", A.afd_Estado->nomeEstado);
+    /*Ainda não foi criada a rotina para impressão, apenas printf's para teste*/
+    printf("\n%d\n", A.numEstados);
     printf("%s", A.afd_Estado->prox->nomeEstado);
     printf("%s", A.afd_Estado->prox->prox->nomeEstado);
+
+    printf("%d\n", A.numSimbolos);
+    printf("%c\n", A.afd_Alfabeto->prox->Simbolo);
+    printf("%c\n", A.afd_Alfabeto->prox->prox->Simbolo);
+    printf("%d\n", A.numTransicao);
+
+    printf("%s\n", A.afd_Transicao->prox->estadoOrigem);
+    printf("%c\n", A.afd_Transicao->prox->s);
+    printf("%s\n", A.afd_Transicao->prox->estadoDestino);
+
+    printf("%s\n", A.afd_Transicao->prox->prox->estadoOrigem);
+    printf("%c\n", A.afd_Transicao->prox->prox->s);
+    printf("%s\n", A.afd_Transicao->prox->prox->estadoDestino);
+
+    printf("%d\n", A.numTransicao);
+
+    printf("%s\n", A.afd_Transicao->prox->prox->prox->prox->estadoOrigem);
+    printf("%c\n", A.afd_Transicao->prox->prox->prox->prox->s);
+    printf("%s\n", A.afd_Transicao->prox->prox->prox->prox->estadoDestino);
+
+    printf("\n%s\n", A.afd_eInicial);
+    printf("%d\n", A.numEFinais);
+    printf("%s\n", A.afd_eFinais->prox->nomeEstado);
     
 }
 
