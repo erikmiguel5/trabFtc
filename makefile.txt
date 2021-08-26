@@ -1,7 +1,7 @@
 
 
-main: main.c func.h
-    gcc main.c -o main
+afdtool: afdtool.c func.h
+    gcc afdtool.c -o afdtool
 
 .PHONY: clean
 
