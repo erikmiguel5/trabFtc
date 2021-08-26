@@ -1,0 +1,14 @@
+4
+par,par
+par,impar
+impar,par
+impar,impar
+2
+0
+1
+4
+par,par 0 impar,impar
+par,par 1 impar,impar
+impar,impar 0 par,par
+impar,impar 1 par,par
+par,par
